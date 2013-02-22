@@ -1,11 +1,20 @@
 #!/bin/bash
 
+#################################
+#  OAR setup script for Ubuntu  #
+#################################
+
 # check rights
 if [ "$(whoami)" != "root" ]; then
     echo "ERROR: You must be root to run this script. Try:
-sudo $0"
+sudo $0 $1"
     exit 1
 fi
+
+
+### SETTINGS ####
+OAR_VERSION=2.5
+DEBIAN_VERSION=sid
 
 #user definition (to modify if necessary)
 #$USER=my_hostname
@@ -61,6 +70,11 @@ oar_install(){
         echo "Failed to install mysql, aborting."
         return 1
     fi
+
+    # Add the OAR repository (choose the right one. See http://oar.imag.fr/repositories/)
+    echo "deb http://oar-ftp.imag.fr/oar/$OAR_VERSION/debian $DEBIAN_VERSION main" > /etc/apt/sources.list.d/oar.list
+    curl http://oar-ftp.imag.fr/oar/oarmaster.asc | sudo apt-key add -
+    apt-get update 
 
 	#Install OAR server for the MySQL backend
 	apt-get install oar-server oar-server-mysql
@@ -126,7 +140,10 @@ oar_runtime(){
     #check config
     #TODO
 
-    #run services
+    #handle services
+    ##stop cgroup-lite
+    service cgroup-lite stop
+
     ##mysql
     service mysql start
 
@@ -138,6 +155,12 @@ oar_runtime(){
 
     ##oar-node
     service oar-node start
+
+    #activate nodes
+    for host in $(cat $HOSTS_NAME)
+    do
+        oarnodesetting -s Alive -h $host
+    done
 
     echo -e "$SCRIPT_OK OAR setup runtime finished."
     return 0
