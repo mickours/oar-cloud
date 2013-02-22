@@ -58,4 +58,11 @@ The problem comes from the `cgroup-lite` service that run by default in an Ubunt
 Stop this service using `service cgroup-lite stop` solve the problem for OAR but puts LXC
 down.
 
-'TODO': find a trick to make OAR and LXC working together (maybe using different cgroup mount points) .
+I find a trick to make OAR and LXC working together: I disable the cpuset feature of OAR.
+In the /etc/oar/oar.conf (there is a copy in the M1 folder) I have comment CPUSET_PATH and
+set to yes OARSUB_FORCE_JOB_KEY as it is provided in the CPUSET_PATH comment.
+
+Thus, I could run an LXC container inside a job. The container was vanished when the job has been killed.
+
+#Questions
+* Is the OAR cpuset mandatory, even if the LXC manage it?

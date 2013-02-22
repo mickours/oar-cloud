@@ -141,8 +141,8 @@ oar_runtime(){
     #TODO
 
     #handle services
-    ##stop cgroup-lite
-    service cgroup-lite stop
+    ##stop cgroup-lite (necessary only of OAR cgroups are used)
+    #service cgroup-lite stop
 
     ##mysql
     service mysql start
