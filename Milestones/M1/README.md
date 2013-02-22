@@ -16,8 +16,11 @@ The cigri devel appliance was used as an configuration example for this.
 The Ubuntu 12.04 LTS distribution has been chosen because it seems to be one of
 the few distributions where LXC works out-of-the-box.
 
-#encountered problems
-##OAR settings
+encountered problems
+--------------------
+
+###OAR settings
+
 * the job manager "job_resource_manager_cgroups.pl" generate cpuset errors
     <code>
     [job_resource_manager_cgroups][41][DEBUG] init
@@ -64,5 +67,6 @@ set to yes OARSUB_FORCE_JOB_KEY as it is provided in the CPUSET_PATH comment.
 
 Thus, I could run an LXC container inside a job. The container was vanished when the job has been killed.
 
-#Questions
+Questions
+---------
 * Is the OAR cpuset mandatory, even if the LXC manage it?
