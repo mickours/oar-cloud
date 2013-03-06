@@ -4,6 +4,9 @@
 #  OAR setup script for Ubuntu  #
 #################################
 
+# exit if error
+#set -e
+
 # check rights
 if [ "$(whoami)" != "root" ]; then
     echo "ERROR: You must be root to run this script. Try:
@@ -21,10 +24,14 @@ DEBIAN_VERSION=sid
 HOME=/home/$USER/
 USER_GROUP=$USER
 
+#get local path
+SCRIPTPATH=$( cd $(dirname $0) ; pwd -P )
 #hosts address map file path
-HOSTS_ADDR=./hosts
+HOSTS_ADDR=${SCRIPTPATH}/hosts
 #hosts names list file path
-HOSTS_NAME=./hosts-names
+HOSTS_NAME=${SCRIPTPATH}/hosts-names
+#oar configuration file path
+OAR_CONFIG=${SCRIPTPATH}/oar.conf
 
 #sql config for database creation (to modify if necessary)
 ADMIN_USER=root
@@ -59,42 +66,48 @@ usage(){
     exit 1
 }
 
+### IF FAILED ###
+# give a description of the action. If it failed: show the message and exit 
+# if_failed(){
+#     if [ $? -ne 0 ]; then
+#         echo "$SCRIPT_FAIL Failed to $1, aborting."
+#         return 1
+#     fi
+# }
+
 
 ### INSTALL ###
 oar_install(){
+    trap 'echo -e "$SCRIPT_FAIL Failed to install, aborting."; exit 1;' ERR
 	echo -e "$SCRIPT_START OAR install..."
 
 	#Install mysql
 	apt-get install mysql-server
-    if [ $? -ne 0 ]; then
-        echo "Failed to install mysql, aborting."
-        return 1
-    fi
 
     # Add the OAR repository (choose the right one. See http://oar.imag.fr/repositories/)
     echo "deb http://oar-ftp.imag.fr/oar/$OAR_VERSION/debian $DEBIAN_VERSION main" > /etc/apt/sources.list.d/oar.list
+    command -v foo >/dev/null 2>&1 || { apt-get install curl; }
     curl http://oar-ftp.imag.fr/oar/oarmaster.asc | sudo apt-key add -
     apt-get update 
 
 	#Install OAR server for the MySQL backend
 	apt-get install oar-server oar-server-mysql
     if [ $? -ne 0 ]; then
-        echo "Failed to install oar-server, aborting."
+        echo "$SCRIPT_FAIL Failed to install oar-server, aborting."
         return 1
     fi
 
 	#Install OAR frontend for the MySQL backend
 	apt-get install oar-user oar-user-mysql
     if [ $? -ne 0 ]; then
-        echo "Failed to install oar-frontend, aborting."
+        echo "$SCRIPT_FAIL Failed to install oar-frontend, aborting."
         return 1
     fi
-
 
 	#install OAR node
 	apt-get install oar-node
     if [ $? -ne 0 ]; then
-        echo "Failed to install oar-node, aborting."
+        echo "$SCRIPT_FAIL Failed to install oar-node, aborting."
         return 1
     fi
 
@@ -105,11 +118,13 @@ oar_install(){
 
 ### CONFIGURE ###
 oar_configure(){
+    trap 'echo -e "$SCRIPT_FAIL Failed to configure OAR, aborting."; exit 1;' ERR
     echo -e "$SCRIPT_START OAR configuration..."
 
-    #edit oar.conf
-    #TODO script this
-    gedit /etc/oar/oar.conf
+    #change oar.conf
+    cp OAR_CONFIG /etc/oar/oar.conf
+    chown oar:root /etc/oar/oar.conf
+    chmod 644 /etc/oar/oar.conf
 
     #create database
     service mysql start
@@ -136,6 +151,7 @@ oar_configure(){
 
 ### RUNTIME ###
 oar_runtime(){
+    #trap 'echo -e "$SCRIPT_FAIL Failed to launch runtime, aborting."; exit 1;' ERR
     echo -e "$SCRIPT_START OAR setup runtime..."
     #check config
     #TODO
