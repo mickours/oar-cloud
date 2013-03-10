@@ -1,0 +1,4 @@
+http://tech.covoiturage.fr/2012/08/22/open-vswitch-un-switch-logiciel-pour-des-reseaux-virtuels/
+http://blog.scottlowe.org/2012/08/17/installing-kvm-and-open-vswitch-on-ubuntu/
+http://openvswitch.org/pipermail/discuss/2012-June/007459.html
+http://blog.allanglesit.com/2012/03/linux-kvm-ubuntu-12-04-with-openvswitch/
