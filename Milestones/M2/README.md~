@@ -17,8 +17,7 @@ encountered problems
   FAIL start a VM using commande line lxc-start -n vm1.
   <code>
 lxc-start -n vm1
-</code>
-<code>
+
 lxc-start: failed to attach 'vethVBliIG' to the bridge 'lxcbr0' : No such device
 lxc-start: failed to create netdev
 lxc-start: failed to create the network
