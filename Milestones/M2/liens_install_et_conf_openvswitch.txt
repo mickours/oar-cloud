@@ -2,3 +2,45 @@ http://tech.covoiturage.fr/2012/08/22/open-vswitch-un-switch-logiciel-pour-des-r
 http://blog.scottlowe.org/2012/08/17/installing-kvm-and-open-vswitch-on-ubuntu/
 http://openvswitch.org/pipermail/discuss/2012-June/007459.html
 http://blog.allanglesit.com/2012/03/linux-kvm-ubuntu-12-04-with-openvswitch/
+
+
+tuto kvm
+https://help.ubuntu.com/community/KVM/CreateGuests
+http://doc.ubuntu-fr.org/kvm
+
+configuration file KVM VMs
+http://vladnevzorov.com/2011/02/11/how-to-change-configuration-of-kvm-virtual-machine/
+
+
+KVM et reseau
+http://www.cryptocracy.com/blog/2012/05/12/bootstrapping-chef
+
+
+
+virt-manager
+/var/lib/libvirt/images/ubuntukvm1.img
+
+
+
+
+http://www.cryptocracy.com/blog/2012/05/12/bootstrapping-chef
+
+
+
+
+qemu-img create -f qcow2 /home/user/PROJET/KVM/ubuntu1.img 5G
+
+virt-install -r 1024 --accelerate -n Fedora14 -f /home/user/PROJET/KVM/ubuntu1.img --cdrom /home/user/Bureau/ubuntu-12.04-desktop-amd64_final_TLS.iso
+
+
+
+
+
+
+http://blog.allanglesit.com/2012/10/linux-kvm-ubuntu-12-10-with-openvswitch/
+
+
+
+
+
+
