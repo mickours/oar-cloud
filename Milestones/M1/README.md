@@ -10,7 +10,8 @@ In an Ubuntu 12.04 LTS environment :
 3. make OAR reservation
 4. launch one or more VM using LXC
 5. Connect to the VM
-6. script this!
+6. check if killing the job do kill the VM 
+7. script this!
 
 The cigri devel appliance was used as an configuration example for this.
 The Ubuntu 12.04 LTS distribution has been chosen because it seems to be one of
