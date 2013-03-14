@@ -1,0 +1,32 @@
+#!/bin/bash
+set -e
+
+### INIT ###
+OAR_USER=$USER
+OAR_FRONTEND='localhost'
+
+DEFAULT_WALLTIME=2 #means 2 hours
+RESOUCES_LIST="walltime=$DEFAULT_WALLTIME"
+
+#TODO make dir .oarvirt if necessary
+INSTANCE=$HOME/.oarvirt/instance
+
+### Create new instance by calling remotly oarsub
+new-instance(){
+    # connect to oar frontend
+    ssh ${OAR_USER}@$OAR_FRONTEND
+
+    # get access to the resource 
+    oarsub -I -l $RESOUCES_LIST
+
+    # save instance info
+    cat $OAR_NODE_FILE | uniq > $INSTANCE
+    echo $OAR_JOB_ID >> $INSTANCE
+
+    #TODO get this value using scp
+
+    exit
+
+}
+
+new-instance
