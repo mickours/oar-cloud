@@ -6,19 +6,28 @@
 \usepackage{amsmath}           % un packages mathématiques
 \usepackage{xcolor}            % pour définir plus de couleurs 
 \usepackage{graphicx}          % pour insérer des figures
+\usepackage{beamerthemesplit}
 
-\useoutertheme[height=0pt, width=80pt,left, hideothersubsections]{sidebar}
-\usecolortheme{seahorse}
+\setbeamercovered{transparent}
+\usetheme[width=75pt,hideothersubsections]{Hannover}
+
+\setbeamertemplate{headline}{\hskip 0.5cm \insertlogo }
 \setbeamercolor*{titlelike}{parent=structure}
+
 \useinnertheme{circles}
 \setbeamertemplate{frametitle}[default][right]
 \setbeamertemplate{blocks}[rounded][shadow=true]
 
 
 %Title info
-\title[OAR cloud]{une infrastructure légère de Cloud Computing basé sur OAR}
-\author{Mercier Michaël}
-\date{}
+\title[OAR Cloud]{Une infrastructure légère de Cloud Computing basé sur OAR}
+\logo{%
+    \includegraphics[width=1cm,height=0.5cm,keepaspectratio]{img/logo_pg2009.png}~%
+    \includegraphics[width=0.8cm,height=0.5cm,keepaspectratio]{img/logo_INRIA.png}%
+}
+\institute{Polytech Grenoble, INRIA\\\scalebox{2}{\insertlogo}}
+\author{Michaël Mercier}
+\date{2013}
 
 
 
@@ -49,9 +58,12 @@
 	\end{frame}
 	
 	
-  \section{Projet OAR cloud}
+  \section{Projet OAR Cloud}
 		\begin{frame}
-			\frametitle{OAR cloud}
+			\frametitle{OAR Cloud}
+			\begin{figure}
+			  \includegraphics[scale=0.3]{img/logo_oar.png}
+ 			\end{figure}
 			Les objectifs du projet
 			\begin{itemize}
 			  \item Faire une définition plus précise du sujet
@@ -59,62 +71,71 @@
 			  \item Tester les technologies émergentes
 			  \item Identification des problèmes
 			  \item Conception de l'architecture générale
-			\end{itemize}
-			
-% 				\begin{figure}
-% 					\includegraphics[scale=0.15]{img/stm32l_discovery.jpg}
-% 				\end{figure}
+			\end{itemize}			
 		\end{frame}
 			
 			
-% 		\subsection{Test technologique}
-% 			\begin{frame}
-% 				\frametitle{Test technologique}
-% 				
-% 			\end{frame}
-% 		
-% 		\subsection{Identification des problèmes}
-% 			\begin{frame}
-% 				\frametitle{Identification des problèmes}
-% 				
-% 			\end{frame}
-% 			
-% 		\subsection{Conception générale}
-% 			\begin{frame}
-% 				\frametitle{Conception générale}
-% 				
-% 			\end{frame}
 			
-			
-			
-	\section{Le cloud computing}
+	\section{Le Cloud omputing}
 	
 		\subsection{Définitions}
 			\begin{frame}
-			  \frametitle{Définitions}
-			  \begin{description}
-			    \item[Cloud computing]
-			    \item[IaaS] 
-			  \end{description}
+			  \frametitle{Cloud computing}
+			    \begin{block}{Wikipedia}
+			      \textit{Le Cloud computing est l'accès via un réseau de télécommunications, à la demande et en libre-service, à des ressources informatiques partagées configurables}
+			    \end{block}
+
+			    Basé sur une pile de services
+			    \begin{description}
+			      \item[IaaS]\textit{ Infrastructure as a Service} 
+			      Fournit un accès au ressources informatique simple et adaptable au besion
+			      \item[PaaS]\textit{Platform as a Service}
+			      Founit une plateforme pour faire tourné du code utilisateur
+			      \item[SaaS]\textit{Software as a Service}
+			      Fournit directement des applications
+			    \end{description}
 			\end{frame}
 			
 		\subsection{Outils}
 			\begin{frame}
 				\frametitle{Outils}
-				
+				OAR
+				\begin{figure}
+			    \includegraphics[scale=0.3]{img/logo_oar.png}
+ 			  \end{figure}
+ 			  \begin{itemize}
+   			  \item Gestionnaire de ressource informatique
+   			  \item Dédié au HPC
+   			  \item Stable et bien testé
+   			  \item utilisé a grande echelle (Ex: Grid5000)
+ 			  \end{itemize}
 			\end{frame}
-			
-			
-	\section{Virtualisation système}
 	
-		\subsection{Définitions}
+		\subsection{Virtualisation système}
 			\begin{frame}
-			  \frametitle{Définitions}
+			  \frametitle{Virtualisation système}
+			  Différente solution basé sur les hyperviseurs à différents niveaux
+			  \begin{columns}
+          \begin{column}{.48\textwidth}
+			      \begin{description}
+			        \item[Type1] Directement sur le hardware
+			      \end{description}
+			    \end{column}%
+          \hfill%
+          \begin{column}{.48\textwidth}
+            \begin{description}
+			        \item[Type2] Au dessus de l'OS
+			      \end{description}
+          \end{column}
+          \end{columns}
+          \begin{figure}
+			    \includegraphics[scale=0.5]{img/Hyperviseur.png}
+ 			  \end{figure}
 			\end{frame}
 			
 		\subsection{Outils}
 			\begin{frame}
-				\frametitle{Outils}
+				\frametitle{LXC}
 			\end{frame}
 			
 			
@@ -173,4 +194,3 @@
 			
 			
 \end{document}
-
