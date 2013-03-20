@@ -1,11 +1,18 @@
 #!/bin/bash
 
-#################################
-#  OAR setup script for Ubuntu  #
-#################################
-
-# exit if error
-#set -e
+################################################
+#       OAR setup script for Debian            #
+################################################
+# setup a test environement for OAR in an     
+# Debian-based ditribution.
+#
+# You have to modify setting to fit with your
+# configuration.
+#
+# Tested on Ubuntu 12.10
+#
+# author: Michael Mercier <mickours@gmail.com>
+################################################
 
 # check rights
 if [ "$(whoami)" != "root" ]; then
@@ -19,23 +26,23 @@ fi
 OAR_VERSION=2.5
 DEBIAN_VERSION=sid
 
+#sql config for database creation (to modify if necessary)
+ADMIN_USER=root
+ADMIN_PASS=oar
+
 #user definition (to modify if necessary)
 #$USER=my_hostname
-HOME=/home/$USER/
-USER_GROUP=$USER
+#HOME=/home/$USER/
+#USER_GROUP=$USER
 
 #get local path
 SCRIPTPATH=$( cd $(dirname $0) ; pwd -P )
 #hosts address map file path
-HOSTS_ADDR=${SCRIPTPATH}/hosts
+HOSTS_ADDR="${SCRIPTPATH}/hosts"
 #hosts names list file path
-HOSTS_NAME=${SCRIPTPATH}/hosts-names
+HOSTS_NAME="${SCRIPTPATH}/hosts-names"
 #oar configuration file path
-OAR_CONFIG=${SCRIPTPATH}/oar.conf
-
-#sql config for database creation (to modify if necessary)
-ADMIN_USER=root
-ADMIN_PASS=oar
+OAR_CONFIG="${SCRIPTPATH}/oar.conf"
 
 #display prefix
 BEGIN_RED='\e[01;31m'
@@ -81,31 +88,37 @@ oar_install(){
     trap 'echo -e "$SCRIPT_FAIL Failed to install, aborting."; exit 1;' ERR
 	echo -e "$SCRIPT_START OAR install..."
 
+    install(){
+        if ! dpkg-query -Wf'${db:Status-abbrev}' $1 2>/dev/null; then
+            apt-get install $1
+        fi
+    }
+
 	#Install mysql
-	apt-get install mysql-server
+	install mysql-server
 
     # Add the OAR repository (choose the right one. See http://oar.imag.fr/repositories/)
     echo "deb http://oar-ftp.imag.fr/oar/$OAR_VERSION/debian $DEBIAN_VERSION main" > /etc/apt/sources.list.d/oar.list
-    command -v foo >/dev/null 2>&1 || { apt-get install curl; }
-    curl http://oar-ftp.imag.fr/oar/oarmaster.asc | sudo apt-key add -
+    install curl
+    curl http://oar-ftp.imag.fr/oar/oarmaster.asc | apt-key add -
     apt-get update 
 
 	#Install OAR server for the MySQL backend
-	apt-get install oar-server oar-server-mysql
+	install oar-server oar-server-mysql
     if [ $? -ne 0 ]; then
         echo "$SCRIPT_FAIL Failed to install oar-server, aborting."
         return 1
     fi
 
 	#Install OAR frontend for the MySQL backend
-	apt-get install oar-user oar-user-mysql
+	install oar-user oar-user-mysql
     if [ $? -ne 0 ]; then
         echo "$SCRIPT_FAIL Failed to install oar-frontend, aborting."
         return 1
     fi
 
 	#install OAR node
-	apt-get install oar-node
+	install oar-node
     if [ $? -ne 0 ]; then
         echo "$SCRIPT_FAIL Failed to install oar-node, aborting."
         return 1
@@ -122,27 +135,33 @@ oar_configure(){
     echo -e "$SCRIPT_START OAR configuration..."
 
     #change oar.conf
-    cp OAR_CONFIG /etc/oar/oar.conf
+    cp $OAR_CONFIG /etc/oar/oar.conf
     chown oar:root /etc/oar/oar.conf
     chmod 644 /etc/oar/oar.conf
 
     #create database
-    service mysql start
-    oar-database --create --db-admin-user $ADMIN_USER --db-admin-pass $ADMIN_PASS
+    service mysql start || true
+    if [ ! -d /var/lib/mysql/oar ]; then
+        oar-database --create --db-admin-user $ADMIN_USER --db-admin-pass $ADMIN_PASS
+    fi
 
-    #populate /etc/hosts
-    echo $HOSTS_ADDR >> /etc/hosts
+    #populate /etc/hosts 
+    if ! grep -Fxq "$HOSTS_ADDR" /etc/hosts; then
+        cat $HOSTS_ADDR >> /etc/hosts
+    fi
 
     #add hosts node
     ##create node settings
-    oar_resources_init $HOSTS_NAME
+    cp $HOSTS_NAME /tmp
+    service oar-node start || true
+    oar_resources_init /tmp/hosts-names
 
     ##run node settings
     sh /tmp/oar_resources_init.txt
 
     #get ssh conf
-    cp -R /var/lib/oar/.ssh $HOME
-    chown -R $USER:$USER_GROUP $HOME.ssh
+    #cp -R /var/lib/oar/.ssh $HOME
+    #chown -R $USER:$USER_GROUP $HOME.ssh
 
     echo -e "$SCRIPT_OK OAR configuration finished."
     return 0
