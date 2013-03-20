@@ -10,6 +10,7 @@
 
 \setbeamercovered{transparent}
 \usetheme[width=70pt,hideothersubsections]{Hannover}
+\setbeamertemplate{footline}[frame number]
 
 \setbeamertemplate{headline}{\hskip 0.2cm \insertlogo }
 \setbeamercolor*{titlelike}{parent=structure}
@@ -24,7 +25,7 @@
 
 
 %Title info
-\title[OAR Cloud]{OAR Cloud - Une infrastructure légère de Cloud Computing basé sur OAR}
+\title[OAR Cloud]{OAR Cloud - Une infrastructure légère de Cloud Computing basée sur OAR}
 \logo{%
   \centering{
     \vspace{0.1cm}%
@@ -75,7 +76,7 @@
 			\begin{itemize}
 			  \item Définition plus précise du sujet
 			  \item Etat de l'art
-			  \item Teste des technologies émergentes
+			  \item Test des technologies émergentes
 			  \item Identification des problèmes
 			  \item Conception de l'architecture générale
 			\end{itemize}			
@@ -83,7 +84,7 @@
 			
 			
 			
-	\section{Le Cloud omputing}
+	\section{Le Cloud Computing}
 	
 		\subsection{Définitions}
 			\begin{frame}
@@ -94,7 +95,7 @@
 			    Basé sur une pile de services
 			    \begin{description}
 			      \item[IaaS \textit{Infrastructure as a Service}] 
-			      Fournit un accès au ressources informatiques simple et adaptable aux besoins
+			      Fournit un accès aux ressources informatiques simple et adaptable aux besoins
 			      \item[PaaS \textit{Platform as a Service}]
 			      Fournit une plateforme pour faire tourner du code utilisateur
 			      \item[SaaS \textit{Software as a Service}]
@@ -110,7 +111,7 @@
  			  \end{figure}
  			  \textbf{OAR}
  			  \begin{itemize}
-   			  \item Gestionnaire de ressource informatique
+   			  \item Gestionnaire de ressources informatiques
    			  \item Dédié au HPC
    			  \item Stable et bien testé
    			  \item Utilisé à grande échelle (Ex: Grid5000)
@@ -151,7 +152,7 @@
 				  \begin{itemize}
 				    \item pas encore sécurisé
 				    \item complexe à configurer
-				    \item API non stabilisé (version 0.9)
+				    \item API non stabilisée (version 0.9)
 				  \end{itemize}
 				\end{alertblock}
 			\end{frame}
@@ -183,7 +184,7 @@
 			  \begin{itemize}
 			    \item Se documenter sur les outils et le contexte
 			    \begin{itemize}
-			      \item Compréhension et état de l'art du le Cloud Computing
+			      \item Compréhension et état de l'art du Cloud Computing
 			      \item Prise en main d'OAR
 			      \item Découverte de LXC
 			    \end{itemize}
@@ -202,7 +203,7 @@
 			    \item ...
 			    \item Conception d'une solution globale
 			    \begin{itemize}
-			      \item Basé sur le standard: Amazon EC2
+			      \item Basée sur le standard: Amazon EC2
             \item Définitions des fonctionnalités
             \item Vue logique
 			    \end{itemize}
@@ -210,7 +211,7 @@
 			    \begin{itemize}
 			      \item M1: lancer un conteneur LXC dans un job OAR
             \item M2: utiliser OpenVSwitch comme bridge pour 2 conteneurs
-            \item M3: couplé les deux précédents jalons
+            \item M3: coupler les deux précédents jalons
 			    \end{itemize}
 			    \item Réalisation des jalons
 			    \begin{itemize}
@@ -239,7 +240,7 @@
 			\begin{frame}
 			  \frametitle{Organisation du travail}
 			  \begin{itemize}
-			    \item gestion d'équipe
+			    \item Gestion d'équipe
 			    \begin{itemize}
 			      \item Une réunion par semaine
 			      \item Transmission du savoir à travers le \href{http://air.imag.fr/mediawiki/index.php/Proj-2012-2013-OAR-Cloud}{wiki du projet}
@@ -249,7 +250,7 @@
 			  \begin{alertblock}{Coopération avec les RICM 4}
 			    \begin{itemize}
 			      \item Manque de temps à consacrer au projet
-			      \item Différences d'investissement entre le reste de l'équipe et moi
+			      \item Différences d'investissement au sein de l'équipe
 			    \end{itemize}
 			    $\Rightarrow$ Très peu de travail en équipe
 			  \end{alertblock}
@@ -271,7 +272,7 @@
 		      \end{itemize}
 		      \item M2
 		      \begin{itemize}
-		        \item En conflit avec les bridge Linux
+		        \item En conflit avec les bridges Linux
 		        \item OpenVswitch ne fonctionne pas correctement avec LXC
 		        \item Problème réglé dans les nouvelles versions?
 		        \item Alternative: bridge Linux et OpenFlow
@@ -285,7 +286,7 @@
 		    \begin{itemize}
 		      \item Travail à domicile
 		      \item Gestion d'équipe difficile dans ces conditions
-		      \item Enormement de connaissances aquises
+		      \item Enormément de connaissances acquises
 		      \item Prêt pour le stage!
 		    \end{itemize}
 	    \end{frame}
