@@ -8,7 +8,10 @@ In an Ubuntu 12.04 LTS environment :
 1. Try to connect two VMs with Open vSwitch
 2. script this!
 
-encountered problems
+create_and_connect_2_wms_lxc_ovs.sh
+
+
+encountered problems [SOLVED]
 --------------------
 
 ###Open vSwitch
